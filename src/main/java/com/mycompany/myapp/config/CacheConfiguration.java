@@ -26,7 +26,7 @@ public class CacheConfiguration {
         log.info("Closing Cache Manager");
     }
 
-    @Bean
+    //@Bean
     public CacheManager cacheManager() {
         log.debug("No cache");
         cacheManager = new NoOpCacheManager();

@@ -1,5 +1,7 @@
 package com.mycompany.myapp.config;
 
+import com.mycompany.myapp.gateway.caching.CachingPostFilter;
+import com.mycompany.myapp.gateway.caching.CachingPreFilter;
 import com.mycompany.myapp.gateway.ratelimiting.RateLimitingFilter;
 import com.mycompany.myapp.gateway.ratelimiting.RateLimitingRepository;
 import com.mycompany.myapp.gateway.accesscontrol.AccessControlFilter;
@@ -8,6 +10,8 @@ import com.mycompany.myapp.gateway.responserewriting.SwaggerBasePathRewritingFil
 import javax.inject.Inject;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.CacheManager;
+import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,7 +22,7 @@ public class GatewayConfiguration {
     public static class SwaggerBasePathRewritingConfiguration {
 
         @Bean
-        public SwaggerBasePathRewritingFilter swaggerBasePathRewritingFilter(){
+        public SwaggerBasePathRewritingFilter swaggerBasePathRewritingFilter() {
             return new SwaggerBasePathRewritingFilter();
         }
     }
@@ -27,7 +31,7 @@ public class GatewayConfiguration {
     public static class AccessControlFilterConfiguration {
 
         @Bean
-        public AccessControlFilter accessControlFilter(){
+        public AccessControlFilter accessControlFilter() {
             return new AccessControlFilter();
         }
     }
@@ -62,4 +66,39 @@ public class GatewayConfiguration {
             return new RateLimitingFilter(rateLimitingRepository(), jHipsterProperties);
         }
     }
+
+    /**
+     * Configures the Zuul filter that caches.
+     * <p>
+     * For this filter to work, you need to have:
+     * <ul>
+     * <li>A working Cassandra cluster
+     * <li>A schema with the JHipster rate-limiting tables configured, using the
+     * "create_keyspace.cql" and "create_tables.cql" scripts from the
+     * "src/main/resources/config/cql" directory
+     * <li>Your cluster configured in your application-*.yml files, using the
+     * "spring.data.cassandra" keys
+     * </ul>
+     */
+    @Configuration
+    @ConditionalOnProperty("jhipster.gateway.caching.enabled")
+    public static class CachingConfiguration {
+
+        @Inject
+        private CacheManager cacheManager;
+
+        @Inject
+        private JHipsterProperties jHipsterProperties;
+
+        @Bean
+        public CachingPreFilter cachingPreFilter() {
+            return new CachingPreFilter(cacheManager, jHipsterProperties);
+        }
+
+        @Bean
+        public CachingPostFilter cachingPostFilter() {
+            return new CachingPostFilter(cacheManager, jHipsterProperties);
+        }
+    }
+
 }

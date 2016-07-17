@@ -31,6 +31,7 @@
     <logger name="com.codahale.metrics" level="WARN"/>
     <logger name="com.netflix" level="WARN"/>
     <logger name="com.netflix.discovery" level="INFO"/>
+    <logger name="com.netflix.ribbon" level="DEBUG"/>
     <logger name="com.ryantenney" level="WARN"/>
     <logger name="com.sun" level="WARN"/>
     <logger name="com.zaxxer" level="WARN"/>

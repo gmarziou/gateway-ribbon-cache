@@ -78,6 +78,8 @@ jhipster:
     gateway:
         rate-limiting: # Read the documentation in the GatewayConfiguration class before enabling.
             enabled: false
+        caching: # Read the documentation in the GatewayConfiguration class before enabling.
+            enabled: true
         authorized-microservices-endpoints: # Access Control Policy, if left empty for a route, all endpoints will be accessible
             app1: /api,/v2/api-docs # recommended dev configuration
     security:

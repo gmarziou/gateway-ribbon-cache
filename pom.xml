@@ -47,7 +47,7 @@
         <logstash-logback-encoder.version>4.6</logstash-logback-encoder.version>
         <postgresql.version>9.4-1203-jdbc42</postgresql.version>
         <run.addResources>false</run.addResources>
-        <spring-cloud.version>Brixton.SR1</spring-cloud.version>
+        <spring-cloud.version>Brixton.SR3</spring-cloud.version>
         <spring-security.version>4.1.0.RELEASE</spring-security.version>
         <springfox.version>2.4.0</springfox.version>
         <!-- Sonar properties -->
@@ -440,6 +440,11 @@
             <groupId>fr.ippon.spark.metrics</groupId>
             <artifactId>metrics-spark-reporter</artifactId>
             <version>${metrics-spark-reporter.version}</version>
+        </dependency>
+        <!-- Support for Ehcache and others -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>

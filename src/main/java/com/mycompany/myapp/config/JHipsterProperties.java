@@ -506,8 +506,14 @@ public class JHipsterProperties {
 
         private final RateLimiting rateLimiting = new RateLimiting();
 
+        private final Caching caching = new Caching();
+
         public RateLimiting getRateLimiting() {
             return rateLimiting;
+        }
+
+        public Caching getCaching() {
+            return caching;
         }
 
         private Map<String, List<String>> authorizedMicroservicesEndpoints = new LinkedHashMap<>();
@@ -540,6 +546,19 @@ public class JHipsterProperties {
 
             public void setLimit(long limit) {
                 this.limit = limit;
+            }
+        }
+
+        public static class Caching {
+
+            private boolean enabled = false;
+
+            public boolean isEnabled() {
+                return enabled;
+            }
+
+            public void setEnabled(boolean enabled) {
+                this.enabled = enabled;
             }
         }
     }
