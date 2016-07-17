@@ -1,0 +1,12 @@
+version: '2'
+services:
+    ribbon_cache-postgresql:
+        container_name: ribbon_cache-postgresql
+        image: postgres:9.5.2
+        # volumes:
+        #     - ~/volumes/jhipster/ribbon_cache/postgresql/:/var/lib/postgresql/
+        environment:
+            - POSTGRES_USER=ribbon_cache
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432
