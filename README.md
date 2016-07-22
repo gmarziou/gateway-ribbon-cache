@@ -13,8 +13,8 @@ We should take into account whether the response is gzipped.
 
 Maybe on top of gateway routes.
 
-- GET /api/gateway/routes/[servcieId}/cache returns cache information (# elements, ttl, ...)
-- DELETE /api/gateway/routes/[servcieId}/cache clears cache 
+- GET /api/gateway/routes/[serviceId}/cache returns cache information (# elements, ttl, ...)
+- DELETE /api/gateway/routes/[serviceId}/cache clears cache 
 
 ## Add tests and look at closing connections
 
