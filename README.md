@@ -2,8 +2,8 @@
 
 Caching implemented with 2 filters:
 
-- CachingPreFilter: reads cache and fill response if URI found in cache
-- CachingPostFilter: stores response into cache using URI as key
+- [CachingPreFilter](src/main/java/com/mycompany/myapp/gateway/caching/CachingPreFilter.java): reads cache and fill response if URI found in cache
+- [CachingPostFilter](src/main/java/com/mycompany/myapp/gateway/caching/CachingPostFilter.java): stores response into cache using URI as key
 
 Cache name uses service id.
 
