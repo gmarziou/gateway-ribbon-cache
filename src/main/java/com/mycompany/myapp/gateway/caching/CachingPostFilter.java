@@ -44,6 +44,7 @@ public class CachingPostFilter extends CachingBaseFilter {
             // Store only successful responses
             Cache cache = cache(ctx);
             if (cache != null) {
+                // TODO cache should probably not store HttpServletResponse
                 String key = cacheKey(req);
                 cache.put(key, res);
                 log.debug("Cached successful response for '{}' into '{}' cache", key, cache.getName());

@@ -8,6 +8,8 @@ import org.springframework.cache.CacheManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.netflix.zuul.constants.ZuulHeaders.ACCEPT_ENCODING;
+
 /**
  * Use response in cache.
  */
@@ -37,6 +39,7 @@ public class CachingPreFilter extends CachingBaseFilter {
             String key = cacheKey(req);
             Cache.ValueWrapper valueWrapper = cache.get(key);
             if (valueWrapper != null) {
+                // TODO cache should probably not store HttpServletResponse
                 HttpServletResponse res = (HttpServletResponse) valueWrapper.get();
                 if (res != null) {
                     log.debug("Filling response for '{}' from '{}' cache", key, cache.getName());
@@ -49,4 +52,10 @@ public class CachingPreFilter extends CachingBaseFilter {
         ctx.set(CACHE_HIT, false);
         return null;
     }
+
+    private boolean isGzipRequested(RequestContext ctx) {
+        String requestEncoding = ctx.getRequest().getHeader(ACCEPT_ENCODING);
+        return requestEncoding != null && requestEncoding.equals("gzip");
+    }
+
 }
