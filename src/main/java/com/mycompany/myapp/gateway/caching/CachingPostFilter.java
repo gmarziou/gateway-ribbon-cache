@@ -31,7 +31,7 @@ public class CachingPostFilter extends CachingBaseFilter {
     @Override
     public boolean shouldFilter() {
         RequestContext ctx = RequestContext.getCurrentContext();
-        return ctx.get(CACHE_HIT) == null;
+        return super.shouldFilter() && !ctx.getBoolean(CACHE_HIT);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class CachingPostFilter extends CachingBaseFilter {
         HttpServletRequest req = ctx.getRequest();
         HttpServletResponse res = ctx.getResponse();
 
-        if (res.getStatus() < 300) {
+        if (isSuccess(res)) {
             // Store only successful responses
             Cache cache = cache(ctx);
             if (cache != null) {
@@ -50,6 +50,10 @@ public class CachingPostFilter extends CachingBaseFilter {
             }
         }
         return null;
+    }
+
+    private boolean isSuccess(HttpServletResponse res) {
+        return (res != null) && (res.getStatus() < 300);
     }
 
 }

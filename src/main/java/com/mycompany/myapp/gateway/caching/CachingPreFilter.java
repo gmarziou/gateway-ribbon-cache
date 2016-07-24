@@ -1,17 +1,12 @@
 package com.mycompany.myapp.gateway.caching;
 
 import com.mycompany.myapp.config.JHipsterProperties;
-import com.netflix.client.ClientException;
 import com.netflix.zuul.context.RequestContext;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper;
-import org.springframework.cloud.netflix.zuul.filters.route.RibbonCommandFactory;
-import org.springframework.http.client.ClientHttpResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Use response in cache.
@@ -51,6 +46,7 @@ public class CachingPreFilter extends CachingBaseFilter {
                 }
             }
         }
+        ctx.set(CACHE_HIT, false);
         return null;
     }
 }

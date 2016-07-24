@@ -16,10 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 public abstract class CachingBaseFilter extends ZuulFilter {
     protected Logger log = LoggerFactory.getLogger(getClass());
 
+    /**
+     * This is where other filters store the id of the downstream service.
+     */
     public static final String SERVICE_ID = "serviceId";
 
     /**
-     * Stores the fact that response has been provided by cache in rpe filter
+     * Stores the fact that response has been provided by cache in pre filter
      * so that post filter does not store the value in cache again.
      */
     public static final String CACHE_HIT = "cacheHit";
@@ -51,7 +54,11 @@ public abstract class CachingBaseFilter extends ZuulFilter {
     }
 
     private String serviceId(RequestContext ctx) {
-        return (String) ctx.get(SERVICE_ID);
+        String serviceId = (String) ctx.get(SERVICE_ID);
+        if (serviceId == null) {
+            log.debug("No service id found in request context {}", ctx);
+        }
+        return serviceId;
     }
 
     /**
@@ -67,7 +74,10 @@ public abstract class CachingBaseFilter extends ZuulFilter {
      */
     protected Cache cache(RequestContext ctx) {
         String serviceId = serviceId(ctx);
-        return cacheManager.getCache(serviceId);
+        if (serviceId != null) {
+            return cacheManager.getCache(serviceId);
+        }
+        return null;
     }
 
 
